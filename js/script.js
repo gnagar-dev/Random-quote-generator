@@ -51,7 +51,7 @@ function getRandomQuote() {
     }
 
     //Log the quote on console and return quote to caller
-    console.log('The random quote is: ' + quote);
+    console.log('The random quote is: ' + JSON.stringify(quote));
     return quote;
 }
 
