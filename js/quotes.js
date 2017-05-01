@@ -1,7 +1,7 @@
-//Creating quotes object which will contains all quotes to displayed by UI.
+//Creating and array of quotes which will contains quote object to displayed on UI.
 var quotes = [
-    {   quote : 'When you reach the end of your rope, tie a knot in it and hang on.', 
-        source : 'Franklin D. Roosevelt', 
+    {   quote : 'When you reach the end of your rope, tie a knot in it and hang on.',
+        source : 'Franklin D. Roosevelt',
         citation : 'Book, Newspapers',
         tags : 'Famous person', 
         year : 1935
@@ -16,7 +16,6 @@ var quotes = [
     {
         quote : 'Sports do not build character. They reveal it.',
         source : 'Heywood Broun', 
-        citation : '', 
         year : 1977
     },
     {

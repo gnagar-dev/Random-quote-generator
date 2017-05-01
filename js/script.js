@@ -1,8 +1,11 @@
+//Variable to keep track of quotes already displayed to user
+var displayedQuotes = [];
+
 // event listener to respond to "Show another quote" button clicks
 // when user clicks anywhere on the button, the "printQuote" function is called
 document.getElementById('loadQuote').addEventListener("click", printQuote, false);
 
-//To show the quote when user visit the page for first time.
+//To show the quote to user for first time.
 printQuote();
 
 //Setting interval to display quote after every 30 seconds
@@ -17,31 +20,69 @@ function getRandomNumber(range) {
 }
 
 //Selects a random quote from quotes array and retun the quote back to caller
+//If quote is already displayed then pick another quote until all quotes are displayed to user
 function getRandomQuote() {
-    var randomNumber = getRandomNumber(quotes.length);
-    return quotes[randomNumber];
+    var quote = '';
+    
+    while(true) {
+       
+       //Get a random number
+       var randomNumber = getRandomNumber(quotes.length);
+
+        //If no quotes are displaed to uses then add this to displayed quotes and return quote to caller
+        if(displayedQuotes.length === 0){
+            displayedQuotes.push(randomNumber);
+            quote = quotes[randomNumber];            
+            break;
+        }
+        //If all quotes are displayed to user then reset the displayedQuotes array and return current quote to caller
+        else if(displayedQuotes.length == quotes.length) {
+            displayedQuotes = [];
+            displayedQuotes.push(randomNumber);
+            quote = quotes[randomNumber];
+            break;
+        }
+        //If the current quote is not already displayed to used then add this to dislayed quotes and return quote to caller
+        else if(displayedQuotes.indexOf(randomNumber) === -1) {
+            displayedQuotes.push(randomNumber);
+            quote = quotes[randomNumber];
+            break;
+        }
+    }
+
+    //Log the quote on console and return quote to caller
+    console.log('The random quote is: ' + quote);
+    return quote;
 }
 
-//
+//This function set a random background and display current quote to user 
 function printQuote() {
     html = '';
+    //set random background color for the document
     document.body.style.backgroundColor = 'rgb('+ getRandomNumber(255) +',' + getRandomNumber(255) + ','+ getRandomNumber(255) + ')';
     
+    //Get randon quote
     var randomlySelectedQuote =  getRandomQuote();
     
+    //Construct the string containing HTML markup for quote
     html += '<p class="quote">' + randomlySelectedQuote.quote + '</p>';
     html += '<p class="source">' + randomlySelectedQuote.source;
-    if(randomlySelectedQuote.citation !== undefined) {
+
+    //Only add citation if present
+    if(randomlySelectedQuote.citation) {
         html += '<span class="citation">' + randomlySelectedQuote.citation + '</span>';
     }
-    if(randomlySelectedQuote.year !== undefined) {
+    //Only add year if present
+    if(randomlySelectedQuote.year) {
         html += '<span class="year">' + randomlySelectedQuote.year + '</span>';
     }
-    if(randomlySelectedQuote.tags !== undefined) {
+    //Only add tags if present
+    if(randomlySelectedQuote.tags) {
         html += '<span class="tags">' + randomlySelectedQuote.tags + '</span>';
     }
     html += '</p>';
 
+    //Set inner HTML for div with id 'quote-box' with constructed HTML markup
     document.getElementById('quote-box').innerHTML = html;
 }
 
